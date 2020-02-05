@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } ;
 
-
-
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(onClickListener);
  /*       fab.setOnClickListener(new View.OnClickListener() {
