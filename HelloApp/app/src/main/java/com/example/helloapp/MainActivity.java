@@ -1,7 +1,6 @@
 package com.example.helloapp;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -16,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -36,9 +34,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } ;
 
+        TextView txt1 = findViewById(R.id.txt1);
+        registerForContextMenu(txt1);
+
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(onClickListener);
-        fab.setOnCreateContextMenuListener(onCreateContextMenu());
+        // fab.setOnClickListener(onClickListener);
+        // registerForContextMenu(fab);
+        // fab.setOnCreateContextMenuListener(onCreateContextMenu());
  /*       fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_option, menu);
         return true;
     }
 
@@ -71,19 +73,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu,
+                                    View v,
+                                    ContextMenu.ContextMenuInfo menuInfo)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_option, menu);
+    }
+
+
+    @Override
     public void onClick(View v) {
 
     }
 
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_context, menu);
 
-    }
 
     protected class MyOnClick extends View
     {
