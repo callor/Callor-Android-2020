@@ -59,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(memo_list.getContext(),
                 LinearLayoutManager.VERTICAL);
 
-        dividerItemDecoration.setDrawable(getApplicationContext().getResources().getDrawable(R.drawable.deco_line));
-
+        dividerItemDecoration.setDrawable(this.getResources().getDrawable(R.drawable.deco_line, getApplicationContext().getTheme()));
         memo_list.addItemDecoration(dividerItemDecoration);
 
         txt_memo = findViewById(R.id.txt_memo);
