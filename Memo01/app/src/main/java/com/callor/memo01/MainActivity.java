@@ -51,6 +51,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         view_adapter = new MemoViewAdapter(this);
         memo_list_view.setAdapter(view_adapter);
 
+
+        // viewAdapter에 이벤트 건네주기
+        /*
+        MemoViewAdapter.OnDeleteListener onDeleteListener = new MemoViewAdapter.OnDeleteListener() {
+            @Override
+            public void onDelete(MemoVO memoVO) {
+                memoViewModel.delete(memoVO);
+            }
+        };
+        */
+
+        /*
+        memoViewModel을 Adapter에 전달하는 것 보다
+        이벤트를 만들어 건네주는 것이 코딩의 묘미
+         */
+
+        // 람다 코딩
+        view_adapter.setOnDeleteListener((memoVO)->memoViewModel.delete(memoVO));
+
+
+
         // DB 연동을 위한 준비
         // LifeCycle 2.2.0-beta01의 ViewModelProvider 사용
         memoViewModel = new ViewModelProvider(this)

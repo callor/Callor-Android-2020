@@ -45,6 +45,6 @@ public class MemoRepository {
 
     }
     public void delete(MemoVO memoVO) {
-        mDao.delete(memoVO);
+        MemoDataBase.databaseWriteExecutor.execute(()->mDao.delete(memoVO));
     }
 }

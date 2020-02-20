@@ -16,9 +16,24 @@ import java.util.List;
 
 public class MemoViewAdapter extends RecyclerView.Adapter {
 
+    public interface OnDeleteListener {
+        void onDelete(MemoVO memoVO);
+    }
+
+    private OnDeleteListener onDeleteListener;
+
     private Context context = null;
     private List<MemoVO> memoList = null;
     private final LayoutInflater layoutInflater;
+
+    /*
+    삭제 이벤트 주입
+     */
+     public void setOnDeleteListener(OnDeleteListener onDeleteListener) {
+         this.onDeleteListener = onDeleteListener;
+     }
+
+
 
     /*
     MainActivity에서 이벤트 인터페이스를 구현하고
