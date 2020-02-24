@@ -3,7 +3,13 @@ package com.biz.naver;
 import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 
+import com.biz.naver.adapter.MovieAdapter;
 import com.biz.naver.config.NaverSearch;
+import com.biz.naver.config.NaverSecur;
+import com.biz.naver.domain.NaverMovie;
+import com.biz.naver.domain.NaverMovieVO;
+import com.biz.naver.retrofit.RetrofieClient;
+import com.biz.naver.retrofit.RetrofitService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -11,7 +17,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
@@ -20,7 +28,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.SneakyThrows;
 import lombok.ToString;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         키보드의 돋보기 버튼을 클릭했을때 발생하는 event
          */
         txt_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @SneakyThrows
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -54,8 +71,40 @@ public class MainActivity extends AppCompatActivity {
                     } else {
 
                         // Toast.makeText(MainActivity.this,strSearch, Toast.LENGTH_SHORT).show();
-                        NaverSearch naverSearch = new NaverSearch(strSearch,recyclerView);
-                        naverSearch.execute();
+                        // NaverSearch naverSearch = new NaverSearch(strSearch,recyclerView);
+                        // naverSearch.execute();
+                        Call<NaverMovie> naverCall = RetrofieClient.getApiService().getMovie(
+                                NaverSecur.NAVER_ID,
+                                NaverSecur.NAVER_SEC,
+                                "movie.json",
+                                strSearch);
+
+//                        Log.d("MAIN",naverCall.execute().errorBody().toString());
+//                        List<NaverMovieVO> mList = naverCall.execute().body();
+//                        Log.d("MAIN",mList.toString());
+
+                        naverCall.enqueue(new Callback<NaverMovie>() {
+                            @Override
+                            public void onResponse(Call<NaverMovie> call, Response<NaverMovie> response) {
+
+                                List<NaverMovieVO> mList = response.body().getItems();
+                                Log.d("MAIN",mList.toString());
+                                MovieAdapter movieAdapter = new MovieAdapter(mList);
+                                recyclerView.setAdapter(movieAdapter);
+
+                                StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
+                                recyclerView.setLayoutManager(layoutManager);
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<NaverMovie> call, Throwable t) {
+                                Log.d("ERROR:",t.getMessage());
+
+                            }
+                        });
+
+
 
                     }
                 }
