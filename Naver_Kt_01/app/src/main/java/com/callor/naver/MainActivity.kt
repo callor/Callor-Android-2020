@@ -1,14 +1,20 @@
 package com.callor.naver
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-
+import android.view.inputmethod.EditorInfo
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.callor.naver.adapter.MovieAdapter
+import com.callor.naver.config.NaverSecur
+import com.callor.naver.domain.Movie
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,15 +23,42 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        val txtSearch = txt_search
+        val recyclerView = movie_list
 
-        txt_hello.setOnClickListener { view->
-            Toast.makeText(this,"반가워",Toast.LENGTH_SHORT).show()
+        // txtSearch.setOnEditorActionListener { v, actionId, event ->
+        // 사용하지 않은 파라메터 이름 _ 로 변경
+        txtSearch.setOnEditorActionListener { _, actionId, _ ->
+            if(actionId == EditorInfo.IME_ACTION_SEARCH){
+
+                val strSearch = txtSearch.text.toString()
+                val naverCall = RetrofitClient.getApiService().getSearch(NaverSecur.NAVER_ID,NaverSecur.NAVER_SEC,"movie.json",strSearch)
+                naverCall.enqueue(object : Callback<Movie>{
+
+                    override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
+                        val mList: Array<Movie.Items>? = response.body()?.items
+
+                        val movieAdapter = mList?.let { MovieAdapter(it) }
+                        recyclerView.adapter = movieAdapter
+
+                        val layoutManager =
+                            StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+                        recyclerView.layoutManager = layoutManager
+
+                    }
+
+                    override fun onFailure(call: Call<Movie>, t: Throwable) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                })
+                true
+            } else {
+                false
+            }
         }
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -44,3 +77,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
