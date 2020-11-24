@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">CarNumJava</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings" translatable="false">설정</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="first_fragment_label" translatable="false">첫 화면</string>
+    <string name="second_fragment_label" translatable="false">두번째 화면</string>
+    <string name="next" translatable="false">다음</string>
+    <string name="previous" translatable="false">이전</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="hello_first_fragment" translatable="false">반갑습니다</string>
+    <string name="hello_second_fragment" translatable="false">Hello Korea: %1$s</string>
 </resources>
