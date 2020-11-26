@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         txtMemoInputText = findViewById(R.id.m_input_text)
         memoListView = findViewById(R.id.memo_list_view)
         var memoList : MutableList<MemoVO> = mutableListOf()
-        viewAdapter = MemoViewAdapter(this,memoList) { post -> memoViewModel.delete(post as Long) }
+        viewAdapter = MemoViewAdapter(memoList) { id -> memoViewModel.delete(id as Long) }
         memoListView.adapter = viewAdapter
 
         memoViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(MemoViewModel::class.java)
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             it?.let {
                 viewAdapter.setMemoList(it as MutableList<MemoVO>)
             }
-            // viewAdapter.notifyDataSetChanged()
+            viewAdapter.notifyDataSetChanged()
         })
 
         val layoutManager = LinearLayoutManager(this)
@@ -121,6 +121,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         // RecyclerView의 Adapter한테 데이터가 변경되었으니 리스트를
         // 다시 그려라 라는 통보
         // view_adapter.notifyDataSetChanged();
-//        txtMemoInputText.text = ""
+        txtMemoInputText.text = null
     }
 }
