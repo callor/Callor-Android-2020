@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+    buildToolsVersion '30.0.2'
     defaultConfig {
-        applicationId "com.callor.memo01"
+        applicationId "com.callor.memo"
         minSdkVersion 22
         targetSdkVersion 29
         versionCode 1
