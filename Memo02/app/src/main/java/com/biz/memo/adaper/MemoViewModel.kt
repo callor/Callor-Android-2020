@@ -18,11 +18,6 @@ class MemoViewModel(application: Application) : AndroidViewModel(application) {
     private var memoRepository: MemoRepository = MemoRepository(application)
     private var memoList: LiveData<MutableList<MemoVO?>?>?
 
-//    constructor(application: Application) : super(application){
-//        this.application = application
-//        memoRepository = MemoRepository(application)
-
-///    }
 
     fun selectAll(): LiveData<MutableList<MemoVO?>?>? {
         return memoRepository.selectAll()
@@ -35,6 +30,10 @@ class MemoViewModel(application: Application) : AndroidViewModel(application) {
     fun delete(id : Long) {
 
         memoRepository.delete(id)
+    }
+
+    fun findById(id: Long): MemoVO? {
+        return memoRepository.findById(id)
     }
 
     init {

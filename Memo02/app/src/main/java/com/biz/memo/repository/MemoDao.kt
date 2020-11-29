@@ -10,8 +10,8 @@ interface MemoDao {
     @Query("SELECT * FROM tbl_memo")
     fun selectAll(): LiveData<MutableList<MemoVO?>?>?
 
-    @Query("SELECT * FROM tbl_memo WHERE rowid = :rowid ")
-    fun findByRowId(rowid: String?): MemoVO?
+    @Query("SELECT * FROM tbl_memo WHERE id = :id ")
+    fun findById(id : Long): MemoVO?
 
     @Query("SELECT * FROM tbl_memo WHERE m_text LIKE :m_text")
     fun findByText(m_text: String?): LiveData<MutableList<MemoVO?>?>?

@@ -33,6 +33,10 @@ class MemoRepository(application: Application) {
         mDao.delete(id)
     }
 
+    fun findById(id: Long): MemoVO? {
+        return mDao.findById(id)
+    }
+
     init {
         val db: MemoDataBase? = MemoDataBase.getInstance(application)
         if (db != null) {

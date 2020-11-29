@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.biz.memo.R
 import com.biz.memo.domain.MemoVO
 
-class MemoViewAdapter(memoList: MutableList<MemoVO>, onDeleteButtonClickListener: (Any) -> Unit) : RecyclerView.Adapter<MemoViewAdapter.MemoHolder?>() {
+class MemoViewAdapter(var memoList: MutableList<MemoVO>,
+                       var onDeleteButtonClickListener: (Any) -> Unit,
+                       var onUpdate:(Any)->Unit) : RecyclerView.Adapter<MemoViewAdapter.MemoHolder?>() {
 
 
     // item 삭제를 위한 이벤트 선언
@@ -19,11 +21,12 @@ class MemoViewAdapter(memoList: MutableList<MemoVO>, onDeleteButtonClickListener
 //    }
 
 
-    private var memoList: MutableList<MemoVO> = memoList
-    private val onDeleteButtonClickListener: (Any) -> Unit = onDeleteButtonClickListener
+//    private var memoList: MutableList<MemoVO> = memoList
+    // private val onDeleteButtonClickListener: (Any) -> Unit = onDeleteButtonClickListener
+    // private val onUpdate: (Any) -> Unit = onUpdate
 
-    fun setMemoList(memoList: MutableList<MemoVO>?) {
-        this.memoList = memoList!!
+    fun setList(memoList: MutableList<MemoVO>) {
+        this.memoList = memoList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemoHolder {
@@ -49,16 +52,18 @@ class MemoViewAdapter(memoList: MutableList<MemoVO>, onDeleteButtonClickListener
           RecyclerView.ViewHolder를 MemoHolder로 형변환 하여
           MemoHoder에 직접 접근할 수 있도록 한다.
        */
-        val memoHolder = holder
 
         /*
         memoList의 각 아이템 요소를 한개씩 읽어서
         TextView setText() method를 이용해서 문자열을 채워 넣어준다.
          */
-        memoHolder.item_view_date.text = memoList[position].m_date.toString()
-        memoHolder.item_view_time.text = memoList[position].m_time.toString()
-        memoHolder.item_view_text.text = memoList[position].m_text.toString()
-        memoHolder.item_delete.setOnClickListener(View.OnClickListener { memoList[position].id.let { it1 -> onDeleteButtonClickListener(it1.toLong()) } })
+        holder.item_view_date.text = memoList[position].m_date.toString()
+        holder.item_view_time.text = memoList[position].m_time.toString()
+        holder.item_view_text.text = memoList[position].m_text.toString()
+
+        val id : Long = memoList[position].id.toLong()
+        holder.item_delete.setOnClickListener(View.OnClickListener { onDeleteButtonClickListener(id) })
+        holder.item_view_text.setOnClickListener(View.OnClickListener {onUpdate(id)})
     }
 
 

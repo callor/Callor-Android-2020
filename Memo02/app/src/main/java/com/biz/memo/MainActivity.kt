@@ -1,8 +1,10 @@
 package com.biz.memo
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.*
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var memoListView: RecyclerView
     private lateinit var viewAdapter: MemoViewAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var btnSave : Button
 
     /*
     DB 연동을 위한 변수들 선언
@@ -37,16 +40,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val toolbar = findViewById<Toolbar?>(R.id.toolbar)
 
         setSupportActionBar(toolbar)
-        val btnSave = findViewById<Button?>(R.id.memo_save)
+        btnSave = findViewById<Button?>(R.id.memo_save)
 
         btnSave.setOnClickListener(this)
         txtMemoInputText = findViewById(R.id.m_input_text)
         memoListView = findViewById(R.id.memo_list_view)
         var memoList : MutableList<MemoVO> = mutableListOf()
-        viewAdapter = MemoViewAdapter(memoList) { id -> memoViewModel.delete(id as Long) }
+        viewAdapter = MemoViewAdapter(memoList,{ id -> memoViewModel.delete(id as Long) }, {id-> this.memoUpdate(id as Long)} )
         memoListView.adapter = viewAdapter
 
-        memoViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(MemoViewModel::class.java)
+        memoViewModel = ViewModelProvider(this,
+                ViewModelProvider.AndroidViewModelFactory(application)).get(MemoViewModel::class.java)
 //         memoViewModel: MemoViewModelby viewModels
 
         /**
@@ -59,7 +63,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
          */
         memoViewModel.selectAll()?.observe(this, {
             it?.let {
-                viewAdapter.setMemoList(it as MutableList<MemoVO>)
+                viewAdapter.setList(it as MutableList<MemoVO>)
             }
             viewAdapter.notifyDataSetChanged()
         })
@@ -79,6 +83,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+
+    private fun memoUpdate(id: Long) {
+        Toast.makeText(this,id.toString(),Toast.LENGTH_LONG).show()
+        val memoVO : MemoVO? = memoViewModel.findById(id)
+        if (memoVO != null) {
+            txtMemoInputText?.setText(memoVO.m_text as String)
+        }
+        this.btnSave.text = "변경"
+        this.btnSave.tag = memoVO
+        // editText2?.setText(savedString)
+
+    }
 
 
 
@@ -107,15 +123,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //            txtMemoInputText.setFocusable(true)
             return
         }
-        val sd = SimpleDateFormat("yyyy-MM-dd")
-        val st = SimpleDateFormat("HH:mm:ss")
-        val date = Date(System.currentTimeMillis())
-        val memoVO = MemoVO();
 
-        memoVO.m_date = sd.format(date).toString();
-        memoVO.m_time = st.format(date)
-        memoVO.m_text = mMemoText
+        var memoVO = MemoVO()
+        if((v as Button).text == "변경") {
+            memoVO = v.tag as MemoVO
+            memoVO.m_text = mMemoText
+        } else {
+            val sd = SimpleDateFormat("yyyy-MM-dd")
+            val st = SimpleDateFormat("HH:mm:ss")
+            val date = Date(System.currentTimeMillis())
+            memoVO.m_date = sd.format(date).toString();
+            memoVO.m_time = st.format(date)
+            memoVO.m_text = mMemoText
+            // memoVO = MemoVO();
+        }
+
         memoViewModel.insert(memoVO)
+        btnSave.text = "추가"
         // memoList.add(memoVO);
 
         // RecyclerView의 Adapter한테 데이터가 변경되었으니 리스트를
