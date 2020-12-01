@@ -34,6 +34,11 @@ class MainActivity : AppCompatActivity() {
                         ) { _, row -> "0 x $row = 0\n" }
                         .scan { x, y -> x + y }
                         .subscribe { text -> tv.text = text }
+
+                subject.map {ed.text.toString() == ""}
+                        .flatMap( {BehaviorSubject.range(1,9)})
+                        { d, row -> "$d x $row = 0\n"}
+
                 subject.map { ed.text.toString().toLong() }
                         .flatMap({ BehaviorSubject.range(1, 9) }
                         ) { dan, row -> dan.toString() + " x " + row + " = " + dan * row + "\n" }
