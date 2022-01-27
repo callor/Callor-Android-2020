@@ -1,15 +1,12 @@
 package com.biz.naver;
 
-import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 
 import com.biz.naver.adapter.MovieAdapter;
-import com.biz.naver.config.NaverSearch;
 import com.biz.naver.config.NaverSecur;
 import com.biz.naver.domain.NaverMovie;
 import com.biz.naver.domain.NaverMovieVO;
-import com.biz.naver.retrofit.RetrofieClient;
-import com.biz.naver.retrofit.RetrofitService;
+import com.biz.naver.retrofit.RetrofitServiceImplV1;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -28,12 +25,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.SneakyThrows;
-import lombok.ToString;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                         // Toast.makeText(MainActivity.this,strSearch, Toast.LENGTH_SHORT).show();
                         // NaverSearch naverSearch = new NaverSearch(strSearch,recyclerView);
                         // naverSearch.execute();
-                        Call<NaverMovie> naverCall = RetrofieClient.getApiService().getMovie(
+                        Call<NaverMovie> naverCall = RetrofitServiceImplV1.getApiService().getMovie(
                                 NaverSecur.NAVER_ID,
                                 NaverSecur.NAVER_SEC,
                                 "movie.json",

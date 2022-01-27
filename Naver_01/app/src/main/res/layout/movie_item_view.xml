@@ -8,21 +8,21 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/m_item_title"
-            android:text="영화제목"
-            android:textStyle="bold"
+            <TextView
+                android:id="@+id/m_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-            android:layout_gravity="center|left"
-            android:maxLines="1"
-            android:padding="10dp"
+                android:layout_gravity="center|left"
+                android:maxLines="1"
+                android:padding="10dp"
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+                android:text="영화제목"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,46 +30,46 @@
 
                 <ImageView
                     android:id="@+id/m_item_image"
-                    android:scaleType="fitXY"
-                    android:layout_margin="10dp"
                     android:layout_width="100dp"
-                    android:layout_height="150dp"/>
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:scaleType="fitXY" />
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/m_item_director"
 
-                        android:maxLines="1"
-                        android:layout_gravity="top|left"
-                        android:padding="10dp"
-
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|left"
+
+                        android:maxLines="1"
+                        android:padding="10dp" />
 
                     <TextView
                         android:id="@+id/m_item_actor"
 
-                        android:maxLines="1"
-                        android:layout_gravity="top|left"
-                        android:padding="10dp"
-
-
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|left"
+
+
+                        android:maxLines="1"
+                        android:padding="10dp" />
 
                     <TextView
                         android:id="@+id/m_item_rating"
 
-                        android:maxLines="1"
-                        android:layout_gravity="top|left"
-                        android:padding="10dp"
-
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|left"
+
+                        android:maxLines="1"
+                        android:padding="10dp" />
 
                 </LinearLayout>
             </LinearLayout>

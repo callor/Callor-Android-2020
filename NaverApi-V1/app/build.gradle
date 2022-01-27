@@ -54,7 +54,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // RestTemplate 안드로이드
-    implementation 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
+    implementation 'org.springframework.android:spring-android-rest-template:2.0.0.M2'
     implementation 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.0'
 

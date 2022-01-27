@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofieClient {
+public class RetrofitServiceImplV1 {
 
     private static final String naver_movie_url = "https://openapi.naver.com/v1/";
 
